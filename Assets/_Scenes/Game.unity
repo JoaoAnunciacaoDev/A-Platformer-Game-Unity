@@ -835,7 +835,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &1501716821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,7 +890,7 @@ MonoBehaviour:
   groundCheck: {fileID: 1309347359}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 64
   groundCheckRadius: 0.12
 --- !u!114 &1501716825
 MonoBehaviour:
@@ -904,8 +904,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ba1dc42a890234b96449d619b204a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
-  jumpForce: 12
-  jumpCutMultiplier: 0.5
+  jumpForce: 8
+  jumpCutMultiplier: 0.25
 --- !u!114 &1501716826
 MonoBehaviour:
   m_ObjectHideFlags: 0
