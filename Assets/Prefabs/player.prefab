@@ -250,7 +250,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 8
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -272,7 +272,7 @@ CircleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b56a739960a2a1441a0b472f3bb64690, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -310,7 +310,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a255b94b8f60b6146803b5da21e2925f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 8
+  groundSpeed: 12
+  airSpeed: 8
+  groundAcceleration: 20
+  airAcceleration: 10
+  groundDeceleration: 50
+  airDeceleration: 15
 --- !u!114 &4236803903794652522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,8 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ba1dc42a890234b96449d619b204a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
-  jumpForce: 8
-  jumpCutMultiplier: 0.25
+  jumpForce: 24
+  jumpCutMultiplier: 0.5
 --- !u!114 &6934600592404933630
 MonoBehaviour:
   m_ObjectHideFlags: 0

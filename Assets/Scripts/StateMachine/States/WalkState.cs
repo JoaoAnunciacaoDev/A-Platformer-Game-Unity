@@ -31,7 +31,7 @@ public class WalkState : State
     {
         float input = player.InputHandler.Horizontal;
 
-        player.Movement.MoveHorizontal(input);
+        player.Movement.MoveHorizontal(input, inAir: false);
         player.Visual.Flip(input);
 
         if (!player.Collision.IsGrounded)
