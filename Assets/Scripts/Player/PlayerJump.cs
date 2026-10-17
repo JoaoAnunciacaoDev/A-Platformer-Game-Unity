@@ -17,6 +17,10 @@ public class PlayerJump : MonoBehaviour
     [SerializeField, Min(0f)] private float wallClimbForceX = 4f;
     [SerializeField, Min(0f)] private float wallCoyoteTime = 0.15f;
 
+    [Header("Slide Jump (Pulo Turbinado)")]
+    [SerializeField, Min(0f)] private float slideJumpSpeedX = 16f;
+    [SerializeField, Min(0f)] private float slideJumpForceY = 20f;
+
     private float wallCoyoteTimer;
     public int LastWallDirection { get; private set; }
     public bool CanWallJump => wallCoyoteTimer > 0f && jumpBufferTimer > 0f;
@@ -92,6 +96,16 @@ public class PlayerJump : MonoBehaviour
         Vector2 velocity = rb.linearVelocity;
         velocity.x = -wallDir * forceX;
         velocity.y = wallJumpForceY;
+        rb.linearVelocity = velocity;
+    }
+
+    public void SlideJump(float direction)
+    {
+        jumpBufferTimer = 0f;
+        coyoteTimer = 0f;
+        Vector2 velocity = rb.linearVelocity;
+        velocity.x = direction * slideJumpSpeedX;
+        velocity.y = slideJumpForceY;
         rb.linearVelocity = velocity;
     }
 }

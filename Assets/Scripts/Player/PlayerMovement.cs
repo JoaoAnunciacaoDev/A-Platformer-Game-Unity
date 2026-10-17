@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Velocidade")]
     [SerializeField, Min(0f)] private float moveSpeed = 10f;
+    public float MoveSpeed => moveSpeed;
 
     [Header("Controle no Chão")]
     [SerializeField, Min(0f)] private float groundAcceleration = 75f;
@@ -23,8 +24,16 @@ public class PlayerMovement : MonoBehaviour
     public void MoveHorizontal(float input, bool inAir = false)
     {
         float targetVelocityX = input * moveSpeed;
-        float rate;
+        Vector2 velocity = rb.linearVelocity;
 
+        if (inAir && Mathf.Abs(velocity.x) > moveSpeed && Mathf.Sign(velocity.x) == Mathf.Sign(input))
+        {
+            velocity.x = Mathf.MoveTowards(velocity.x, targetVelocityX, airDeceleration * Time.fixedDeltaTime);
+            rb.linearVelocity = velocity;
+            return;
+        }
+
+        float rate;
         if (inAir)
         {
             rate = (Mathf.Abs(input) > 0.01f) ? airAcceleration : airDeceleration;
@@ -34,7 +43,6 @@ public class PlayerMovement : MonoBehaviour
             rate = (Mathf.Abs(input) > 0.01f) ? groundAcceleration : groundDeceleration;
         }
 
-        Vector2 velocity = rb.linearVelocity;
         velocity.x = Mathf.MoveTowards(velocity.x, targetVelocityX, rate * Time.fixedDeltaTime);
         rb.linearVelocity = velocity;
     }

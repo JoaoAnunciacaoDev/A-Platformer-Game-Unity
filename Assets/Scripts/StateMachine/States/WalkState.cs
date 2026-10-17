@@ -18,6 +18,11 @@ public class WalkState : State
 
     public override State OnInputHandle()
     {
+        if (player.InputHandler.DownPressed)
+        {
+            return stateMachine.GetState("slide");
+        }
+
         if (player.JumpController.CanJump)
         {
             return stateMachine.GetState("jump");

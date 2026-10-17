@@ -48,7 +48,7 @@ public class WallSlideState : State
             return stateMachine.GetState("fall");
         }
 
-        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = player.Rb;
         Vector2 velocity = rb.linearVelocity;
         
         velocity.x = player.Collision.WallDirection * 0.5f;

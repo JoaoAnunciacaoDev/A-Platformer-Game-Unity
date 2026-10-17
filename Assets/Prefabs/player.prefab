@@ -133,6 +133,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd4e9d09b4122e48a0c51303a6680d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpState
+--- !u!1 &2530476988958058732
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 131364626117599482}
+  - component: {fileID: 3006754335392742126}
+  m_Layer: 0
+  m_Name: slide
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &131364626117599482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2530476988958058732}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8080790970014133576}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3006754335392742126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2530476988958058732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b98fdddf5502f584eac2720b01ee38b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlideState
+  initialSlideSpeed: 16
+  slideDeceleration: 18
+  minSlideDuration: 0.5
 --- !u!1 &2796464389633255952
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +227,7 @@ MonoBehaviour:
   diagonalSpeedX: 14
   diagonalSpeedY: 16
   verticalDiveSpeed: 18
+  neutralWindupTime: 0.18
 --- !u!1 &2971648169996816429
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,6 +308,7 @@ Transform:
   - {fileID: 6660200608362671410}
   - {fileID: 20345521461946558}
   - {fileID: 1311113915022836532}
+  - {fileID: 131364626117599482}
   m_Father: {fileID: 7387561988689140497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2268402571705151474
@@ -446,7 +495,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &1113354608253662960
 MonoBehaviour:
@@ -485,6 +534,8 @@ MonoBehaviour:
   wallLeapForceX: 14
   wallClimbForceX: 4
   wallCoyoteTime: 0.15
+  slideJumpSpeedX: 20
+  slideJumpForceY: 18
 --- !u!114 &6934600592404933630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,6 +557,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   groundCheckRadius: 0.12
+  ceilingCheckDistance: 0.55
 --- !u!114 &3647952820101825160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,7 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f16c7eb155fea8a4db3969e4652f44ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerVisual
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 8295934111396674479}
   animator: {fileID: 0}
 --- !u!58 &1871863369790184131
 CircleCollider2D:

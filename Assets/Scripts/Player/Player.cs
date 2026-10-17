@@ -9,6 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerVisual))]
 public class Player : MonoBehaviour
 {
+    public Rigidbody2D Rb { get; private set; }
     public PlayerMovement Movement { get; private set; }
     public PlayerJump JumpController { get; private set; }
     public PlayerCollision Collision { get; private set; }
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        Rb = GetComponent<Rigidbody2D>();
         Movement = GetComponent<PlayerMovement>();
         JumpController = GetComponent<PlayerJump>();
         Collision = GetComponent<PlayerCollision>();
