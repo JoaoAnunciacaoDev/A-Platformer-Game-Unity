@@ -1,0 +1,26 @@
+
+using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerJump))]
+[RequireComponent(typeof(PlayerCollision))]
+[RequireComponent(typeof(PlayerInputHandler))]
+[RequireComponent(typeof(PlayerVisual))]
+public class Player : MonoBehaviour
+{
+    public PlayerMovement Movement { get; private set; }
+    public PlayerJump JumpController { get; private set; }
+    public PlayerCollision Collision { get; private set; }
+    public PlayerInputHandler InputHandler { get; private set; }
+    public PlayerVisual Visual { get; private set; }
+
+    private void Awake()
+    {
+        Movement = GetComponent<PlayerMovement>();
+        JumpController = GetComponent<PlayerJump>();
+        Collision = GetComponent<PlayerCollision>();
+        InputHandler = GetComponent<PlayerInputHandler>();
+        Visual = GetComponent<PlayerVisual>();
+    }
+}
