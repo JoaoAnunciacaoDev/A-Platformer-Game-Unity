@@ -9,7 +9,7 @@ public class PlayerJump : MonoBehaviour
 
     [Header("Game Feel")]
     [SerializeField, Min(0f)] private float coyoteTime = 0.12f;
-    [SerializeField, Min(0f)] private float jumpBufferTime = 0.12f;
+    [SerializeField, Min(0f)] private float jumpBufferTime = 0.18f;
 
     [Header("Wall Jump")]
     [SerializeField, Min(0f)] private float wallJumpForceY = 22f;
@@ -23,6 +23,7 @@ public class PlayerJump : MonoBehaviour
 
     private float wallCoyoteTimer;
     public int LastWallDirection { get; private set; }
+    public float LastJumpDirectionX { get; private set; }
     public bool CanWallJump => wallCoyoteTimer > 0f && jumpBufferTimer > 0f;
 
     private Rigidbody2D rb;
@@ -49,7 +50,10 @@ public class PlayerJump : MonoBehaviour
             jumpBufferTimer -= Time.deltaTime;
 
         if (player.Collision.IsGrounded)
+        {
+            LastJumpDirectionX = 0f;
             coyoteTimer = coyoteTime;
+        }
         else
             coyoteTimer -= Time.deltaTime;
 
@@ -64,16 +68,6 @@ public class PlayerJump : MonoBehaviour
         }
     }
 
-    public void Jump()
-    {
-        jumpBufferTimer = 0f;
-        coyoteTimer = 0f;
-
-        Vector2 velocity = rb.linearVelocity;
-        velocity.y = jumpForce;
-        rb.linearVelocity = velocity;
-    }
-
     public void CutJump()
     {
         if (rb.linearVelocity.y <= 0f)
@@ -84,11 +78,30 @@ public class PlayerJump : MonoBehaviour
         rb.linearVelocity = velocity;
     }
 
+        public void Jump()
+    {
+        jumpBufferTimer = 0f;
+        coyoteTimer = 0f;
+
+        float input = player.InputHandler.Horizontal;
+        if (Mathf.Abs(input) > 0.1f)
+            LastJumpDirectionX = Mathf.Sign(input);
+        else if (Mathf.Abs(rb.linearVelocity.x) > 0.5f)
+            LastJumpDirectionX = Mathf.Sign(rb.linearVelocity.x);
+        else
+            LastJumpDirectionX = 0f;
+
+        Vector2 velocity = rb.linearVelocity;
+        velocity.y = jumpForce;
+        rb.linearVelocity = velocity;
+    }
+
     public void WallJump(int wallDir, float horizontalInput)
     {
         jumpBufferTimer = 0f;
         coyoteTimer = 0f;
         wallCoyoteTimer = 0f;
+        LastJumpDirectionX = -wallDir;
 
         bool climbingSameWall = (horizontalInput != 0 && Mathf.Sign(horizontalInput) == wallDir);
         float forceX = climbingSameWall ? wallClimbForceX : wallLeapForceX;
@@ -103,6 +116,8 @@ public class PlayerJump : MonoBehaviour
     {
         jumpBufferTimer = 0f;
         coyoteTimer = 0f;
+        LastJumpDirectionX = direction;
+
         Vector2 velocity = rb.linearVelocity;
         velocity.x = direction * slideJumpSpeedX;
         velocity.y = slideJumpForceY;

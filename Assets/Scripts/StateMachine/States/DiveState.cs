@@ -27,7 +27,17 @@ public class DiveState : State
         Rigidbody2D rb = player.Rb;
         float inputX = player.InputHandler.Horizontal;
 
-        if (Mathf.Abs(inputX) > 0.2f)
+        float jumpDir = player.JumpController.LastJumpDirectionX;
+        if (jumpDir == 0f && Mathf.Abs(rb.linearVelocity.x) > 0.5f)
+        {
+            jumpDir = Mathf.Sign(rb.linearVelocity.x);
+        }
+
+        bool isOppositeToJump = (jumpDir != 0f) 
+                                && (Mathf.Abs(inputX) > 0.2f) 
+                                && (Mathf.Sign(inputX) != jumpDir);
+
+        if (Mathf.Abs(inputX) > 0.2f && !isOppositeToJump)
         {
             lockedDirX = Mathf.Sign(inputX);
             isHanging = false;
@@ -62,12 +72,7 @@ public class DiveState : State
         vel.x = (lockedDirX != 0f) ? (lockedDirX * diagonalSpeedX) : 0f;
         rb.linearVelocity = vel;
 
-        if (lockedDirX != 0f && player.Collision.IsTouchingWall && !player.Collision.IsGrounded)
-        {
-            return stateMachine.GetState("wallslide");
-        }
-
-                if (player.Collision.IsGrounded)
+        if (player.Collision.IsGrounded)
         {
             Vector2 v = rb.linearVelocity;
             v.y = 0f;
