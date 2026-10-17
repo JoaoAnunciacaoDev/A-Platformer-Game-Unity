@@ -25,6 +25,7 @@ public class SlideState : State
     {
         player.Visual.PlayAnimation("slide");
         player.Collision.SetCrouchCollider(true);
+        player.Visual.SetCrouchVisual(true);
 
         slideTimer = 0f;
 
@@ -50,11 +51,12 @@ public class SlideState : State
     public override void OnStateExit()
     {
         player.Collision.SetCrouchCollider(false);
+        player.Visual.SetCrouchVisual(false);
     }
 
     public override State OnInputHandle()
     {
-        if (player.InputHandler.JumpPressed || player.JumpController.HasBufferedJump)
+        if (!player.Collision.HasCeilingAbove && (player.InputHandler.JumpPressed || player.JumpController.HasBufferedJump))
         {
             player.JumpController.SlideJump(slideDirection);
             return stateMachine.GetState("jump");
@@ -74,6 +76,16 @@ public class SlideState : State
 
         float decelRate = holdingOppositeDirection ? (slideDeceleration * 2.5f) : slideDeceleration;
         currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, decelRate * Time.fixedDeltaTime);
+
+        if (player.Collision.HasCeilingAbove && currentSpeed <= 1f)
+        {
+            if (Mathf.Abs(inputX) > 0.01f)
+            {
+                slideDirection = Mathf.Sign(inputX);
+                currentSpeed = 4f;
+                player.Visual.Flip(slideDirection);
+            }
+        }
 
         Vector2 velocity = rb.linearVelocity;
         velocity.x = slideDirection * currentSpeed;

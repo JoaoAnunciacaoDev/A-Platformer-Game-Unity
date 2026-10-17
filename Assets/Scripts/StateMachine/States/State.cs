@@ -2,6 +2,11 @@ using UnityEngine;
 
 public abstract class State : MonoBehaviour
 {
+    [Header("Debug Visual")]
+    [Tooltip("Cor do jogador durante este estado")]
+    [SerializeField] private Color debugColor = Color.white;
+    
+    public Color DebugColor => debugColor;
     protected Player player;
 
     public virtual void Initialize(Player player) { this.player = player; }

@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511a26a81c9cf55498cc5791c48f3fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IdleState
+  debugColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1660977788482514394
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77eceecced9a05e4fbd4be87bbe10101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WallSlideState
+  debugColor: {r: 1, g: 0.59607846, b: 0, a: 1}
   slideSpeed: 0.25
 --- !u!1 &2491887969321607816
 GameObject:
@@ -133,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd4e9d09b4122e48a0c51303a6680d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpState
+  debugColor: {r: 0, g: 0.7372549, b: 0.83137256, a: 1}
 --- !u!1 &2530476988958058732
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b98fdddf5502f584eac2720b01ee38b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlideState
+  debugColor: {r: 1, g: 0.92156863, b: 0.23137255, a: 1}
   initialSlideSpeed: 16
   slideDeceleration: 18
   minSlideDuration: 0.5
@@ -224,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5f90e24e4b255e4081840b4c3aef55a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DiveState
+  debugColor: {r: 0.6117647, g: 0.15294118, b: 0.6901961, a: 1}
   diagonalSpeedX: 14
   diagonalSpeedY: 16
   verticalDiveSpeed: 18
@@ -272,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1633109efa335a4f9221beeefbfb913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WalkState
+  debugColor: {r: 0.29803923, g: 0.6862745, b: 0.3137255, a: 1}
 --- !u!1 &3665160309497637537
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,6 +703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9f90a3f3d491c4aaef257fdef57681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FallState
+  debugColor: {r: 0.24705882, g: 0.31764707, b: 0.70980394, a: 1}
 --- !u!1 &8434741763682620168
 GameObject:
   m_ObjectHideFlags: 0

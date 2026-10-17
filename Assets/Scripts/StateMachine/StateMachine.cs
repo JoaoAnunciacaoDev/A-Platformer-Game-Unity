@@ -7,6 +7,7 @@ public class StateMachine : MonoBehaviour
 
     private State previousState;
     private State currentState;
+    private Player player;
 
     private readonly Dictionary<string, State> states = new();
 
@@ -15,7 +16,7 @@ public class StateMachine : MonoBehaviour
 
     private void Awake()
     {
-        Player player = transform.parent.GetComponent<Player>();
+        player = transform.parent.GetComponent<Player>();
 
         if (player == null)
         {
@@ -35,6 +36,7 @@ public class StateMachine : MonoBehaviour
         if (initialState != null)
         {
             currentState = initialState;
+            player.Visual.SetColor(currentState.DebugColor);
             currentState.OnStateEnter();
         }
         else
@@ -81,6 +83,7 @@ public class StateMachine : MonoBehaviour
         previousState = currentState;
         currentState = newState;
 
+        player.Visual.SetColor(currentState.DebugColor);
         currentState.OnStateEnter();
     }
 

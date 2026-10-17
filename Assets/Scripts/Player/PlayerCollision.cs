@@ -6,16 +6,13 @@ public class PlayerCollision : MonoBehaviour
     [Header("Parede")]
     [SerializeField] private LayerMask wallLayer;
     [SerializeField, Min(0.01f)] private float wallCheckDistance = 0.55f;
-    public bool IsTouchingWall { get; private set; }
-    public int WallDirection { get; private set; }
-
     [SerializeField] private Transform groundCheck;
 
     [SerializeField] private LayerMask groundLayer;
 
     [SerializeField, Min(0.01f)] private float groundCheckRadius = 0.12f;
-    [SerializeField, Min(0.01f)] private float ceilingCheckDistance = 0.55f;
-
+    public bool IsTouchingWall { get; private set; }
+    public int WallDirection { get; private set; }
     public bool IsGrounded { get; private set; }
     public bool HasCeilingAbove { get; private set; }
     private CircleCollider2D circleCollider;
@@ -25,7 +22,7 @@ public class PlayerCollision : MonoBehaviour
         circleCollider = GetComponent<CircleCollider2D>();
     }  
 
-        private void FixedUpdate()
+    private void FixedUpdate()
     {
         IsGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
@@ -33,8 +30,11 @@ public class PlayerCollision : MonoBehaviour
             groundLayer
         );
 
-        Vector2 rayOrigin = (Vector2)transform.position + (circleCollider != null ? circleCollider.offset : Vector2.zero);
-        RaycastHit2D hitCeiling = Physics2D.Raycast(rayOrigin, Vector2.up, ceilingCheckDistance, groundLayer);
+        float currentHeadY = circleCollider != null ? (circleCollider.offset.y + circleCollider.radius) : 0f;
+        Vector2 rayOrigin = (Vector2)transform.position + new Vector2(0f, currentHeadY);
+
+        float distanceToStand = 0.75f - currentHeadY + 0.1f;
+        RaycastHit2D hitCeiling = Physics2D.Raycast(rayOrigin, Vector2.up, distanceToStand, groundLayer);
         HasCeilingAbove = (hitCeiling.collider != null);
 
         RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance, wallLayer);

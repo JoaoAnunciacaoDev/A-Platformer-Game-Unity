@@ -20,6 +20,11 @@ public class WallSlideState : State
 
     public override State OnInputHandle()
     {
+        if (player.InputHandler.DownPressed)
+        {
+            return stateMachine.GetState("dive");
+        }
+        
         if (player.JumpController.HasBufferedJump)
         {
             float input = player.InputHandler.Horizontal;
