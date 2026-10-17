@@ -310,12 +310,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a255b94b8f60b6146803b5da21e2925f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  groundSpeed: 12
-  airSpeed: 8
-  groundAcceleration: 20
-  airAcceleration: 10
-  groundDeceleration: 50
-  airDeceleration: 15
+  moveSpeed: 10
+  acceleration: 75
+  deceleration: 90
+  airMultiplier: 0.65
 --- !u!114 &4236803903794652522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,6 +328,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
   jumpForce: 24
   jumpCutMultiplier: 0.5
+  coyoteTime: 0.12
+  jumpBufferTime: 0.12
 --- !u!114 &6934600592404933630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +488,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.81566143, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

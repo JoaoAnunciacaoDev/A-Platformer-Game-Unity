@@ -18,6 +18,11 @@ public class FallState : State
 
     public override State OnInputHandle()
     {
+        if (player.JumpController.CanJump)
+        {
+            return stateMachine.GetState("jump");
+        }
+
         return null;
     }
 
@@ -30,6 +35,9 @@ public class FallState : State
 
         if (!player.Collision.IsGrounded)
             return null;
+
+        if (player.JumpController.HasBufferedJump)
+            return stateMachine.GetState("jump");
 
         if (Mathf.Approximately(input, 0f))
             return stateMachine.GetState("idle");

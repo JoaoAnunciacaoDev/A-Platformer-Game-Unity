@@ -19,8 +19,7 @@ public class IdleState : State
 
     public override State OnInputHandle()
     {
-        if (player.InputHandler.JumpPressed &&
-            player.Collision.IsGrounded)
+        if (player.JumpController.CanJump)
         {
             return stateMachine.GetState("jump");
         }
