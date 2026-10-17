@@ -13,46 +13,32 @@ public class WalkState : State
 
     public override void OnStateEnter()
     {
-        player.PlayAnim("walk");
-        player.ResetJumpCount();
-        player.ResetDash();
+        player.Visual.PlayAnimation("walk");
     }
 
     public override State OnInputHandle()
     {
-        if (Input.GetButtonDown("Jump"))
-            player.StartJumpBuffer();
-
-        if (Input.GetButtonDown("Dash"))
-            player.StartDashBuffer();
+        if (player.InputHandler.JumpPressed &&
+            player.Collision.IsGrounded)
+        {
+            return stateMachine.GetState("jump");
+        }
 
         return null;
     }
 
     public override State OnStateFixedUpdate()
     {
-        float inputAxis = Input.GetAxisRaw("Horizontal");
+        float input = player.InputHandler.Horizontal;
 
-        player.Move(Time.fixedDeltaTime, inputAxis);
-        player.FlipSprite(inputAxis);
+        player.Movement.MoveHorizontal(input);
+        player.Visual.Flip(input);
 
-        if (player.CanJump() && player.IsJumpBuffering())
-        {
-            player.ZeroJumpBuffer();
-            return stateMachine.GetState("jump");
-        }
-
-        if (inputAxis == 0f && player.IsOnFloor())
-            return stateMachine.GetState("idle");
-
-        if (player.IsFalling())
+        if (!player.Collision.IsGrounded)
             return stateMachine.GetState("fall");
 
-        if (player.IsTouchingWall() && Input.GetButton("Climb"))
-            return stateMachine.GetState("slide");
-
-        if (player.HasDashCount() && player.IsDashBuffering())
-            return stateMachine.GetState("dash");
+        if (Mathf.Approximately(input, 0f))
+            return stateMachine.GetState("idle");
 
         return null;
     }

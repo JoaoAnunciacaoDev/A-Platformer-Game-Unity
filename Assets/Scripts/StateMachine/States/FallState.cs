@@ -13,56 +13,27 @@ public class FallState : State
 
     public override void OnStateEnter()
     {
-        // if (player.IsDead())
-        //     return stateMachine.TransitionTo(stateMachine.GetState("death"));
-
-        player.PlayAnim("fall");
+        player.Visual.PlayAnimation("fall");
     }
 
     public override State OnInputHandle()
     {
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (!player.CoyoteTimerIsStopped())
-                return stateMachine.GetState("jump");
-
-            player.StartJumpBuffer();
-        }
-
-        if (Input.GetButtonDown("Dash"))
-            player.StartDashBuffer();
-
         return null;
     }
 
     public override State OnStateFixedUpdate()
     {
-        float inputAxis = Input.GetAxisRaw("Horizontal");
+        float input = player.InputHandler.Horizontal;
 
-        player.Move(Time.fixedDeltaTime, inputAxis);
-        player.FlipSprite(inputAxis);
+        player.Movement.MoveHorizontal(input);
+        player.Visual.Flip(input);
 
-        if (player.IsOnFloor())
-        {
-            player.PlaySquash();
-            player.SpawnDustEffect();
-            player.ResetDash();
+        if (!player.Collision.IsGrounded)
+            return null;
 
-            if (player.IsJumpBuffering())
-                return stateMachine.GetState("jump");
+        if (Mathf.Approximately(input, 0f))
+            return stateMachine.GetState("idle");
 
-            if (inputAxis == 0)
-                return stateMachine.GetState("idle");
-
-            return stateMachine.GetState("walk");
-        }
-
-        if (player.IsTouchingWall())
-            return stateMachine.GetState("slide");
-
-        if (player.HasDashCount() && player.IsDashBuffering())
-            return stateMachine.GetState("dash");
-
-        return null;
+        return stateMachine.GetState("walk");
     }
 }

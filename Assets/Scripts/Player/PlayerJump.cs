@@ -11,6 +11,7 @@ public class PlayerJump : MonoBehaviour
     private float jumpCutMultiplier = 0.5f;
 
     private Rigidbody2D rb;
+    public float VerticalVelocity => rb.linearVelocity.y;
 
     private void Awake()
     {

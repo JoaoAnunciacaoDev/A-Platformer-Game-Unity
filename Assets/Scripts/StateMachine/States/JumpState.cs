@@ -13,46 +13,27 @@ public class JumpState : State
 
     public override void OnStateEnter()
     {
-        player.PlayAnim("jump");
-        player.SpawnDustEffect();
-        player.Jump();
-        player.StopCoyoteTimer();
-        player.EmitJumped();
-
-        SoundController.PlaySFX("jump");
+        player.Visual.PlayAnimation("jump");
+        player.JumpController.Jump();
     }
 
     public override State OnInputHandle()
     {
-        if (Input.GetButtonUp("Jump"))
-        {
-            player.CutVelocity();
-            return stateMachine.GetState("fall");
-        }
-
-        if (Input.GetButtonDown("Dash"))
-        {
-            player.StartDashBuffer();
-        }
+        if (player.InputHandler.JumpReleased)
+            player.JumpController.CutJump();
 
         return null;
     }
 
     public override State OnStateFixedUpdate()
     {
-        float inputAxis = Input.GetAxisRaw("Horizontal");
+        float input = player.InputHandler.Horizontal;
 
-        player.Move(Time.fixedDeltaTime, inputAxis);
-        player.FlipSprite(inputAxis);
+        player.Movement.MoveHorizontal(input);
+        player.Visual.Flip(input);
 
-        if (player.IsFalling())
+        if (player.JumpController.VerticalVelocity <= 0f)
             return stateMachine.GetState("fall");
-
-        // if (player.IsTouchingWall())
-        //     return stateMachine.GetState("slide");
-
-        if (player.HasDashCount() && player.IsDashBuffering())
-            return stateMachine.GetState("dash");
 
         return null;
     }
