@@ -23,6 +23,11 @@ public class JumpState : State
 
     public override State OnInputHandle()
     {
+        if (player.InputHandler.DownPressed)
+        {
+            return stateMachine.GetState("dive");
+        }
+
         if (player.InputHandler.JumpReleased)
             player.JumpController.CutJump();
 

@@ -18,6 +18,11 @@ public class FallState : State
 
     public override State OnInputHandle()
     {
+        if (player.InputHandler.DownPressed)
+        {
+            return stateMachine.GetState("dive");
+        }
+
         if (player.JumpController.CanJump)
         {
             return stateMachine.GetState("jump");
