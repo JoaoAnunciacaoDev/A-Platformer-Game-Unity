@@ -33,6 +33,14 @@ public class FallState : State
         player.Movement.MoveHorizontal(input, inAir: true);
         player.Visual.Flip(input);
 
+        if (player.Collision.IsTouchingWall && !player.Collision.IsGrounded && player.JumpController.VerticalVelocity <= 0f)
+        {
+            if (input == 0 || Mathf.Sign(input) == player.Collision.WallDirection)
+            {
+                return stateMachine.GetState("wallslide");
+            }
+        }
+
         if (!player.Collision.IsGrounded)
             return null;
 

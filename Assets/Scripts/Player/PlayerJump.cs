@@ -3,13 +3,16 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerJump : MonoBehaviour
 {
-    [Header("Pulo")]
+    [Header("Jump")]
     [SerializeField, Min(0f)] private float jumpForce = 14f;
     [SerializeField, Range(0f, 1f)] private float jumpCutMultiplier = 0.5f;
 
-    [Header("Tolerâncias")]
+    [Header("Game Feel")]
     [SerializeField, Min(0f)] private float coyoteTime = 0.12f;
     [SerializeField, Min(0f)] private float jumpBufferTime = 0.12f;
+    [Header("Wall Jump")]
+    [SerializeField, Min(0f)] private float wallJumpForceY = 20f;
+    [SerializeField, Min(0f)] private float wallJumpForceX = 12f;
 
     private Rigidbody2D rb;
     private Player player;
@@ -65,6 +68,17 @@ public class PlayerJump : MonoBehaviour
 
         Vector2 velocity = rb.linearVelocity;
         velocity.y *= jumpCutMultiplier;
+        rb.linearVelocity = velocity;
+    }
+
+    public void WallJump(int wallDir)
+    {
+        jumpBufferTimer = 0f;
+        coyoteTimer = 0f;
+        
+        Vector2 velocity = rb.linearVelocity;
+        velocity.x = -wallDir * wallJumpForceX;
+        velocity.y = wallJumpForceY;
         rb.linearVelocity = velocity;
     }
 }
