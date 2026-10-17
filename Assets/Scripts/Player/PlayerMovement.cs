@@ -6,13 +6,15 @@ public class PlayerMovement : MonoBehaviour
     [Header("Velocidade")]
     [SerializeField, Min(0f)] private float moveSpeed = 10f;
 
-    [Header("Aceleração")]
-    [SerializeField, Min(0f)] private float acceleration = 75f;
-    [SerializeField, Min(0f)] private float deceleration = 90f;
-    [SerializeField, Range(0f, 1f)] private float airMultiplier = 0.65f;
+    [Header("Controle no Chão")]
+    [SerializeField, Min(0f)] private float groundAcceleration = 75f;
+    [SerializeField, Min(0f)] private float groundDeceleration = 95f;
+
+    [Header("Controle no Ar")]
+    [SerializeField, Min(0f)] private float airAcceleration = 50f;
+    [SerializeField, Min(0f)] private float airDeceleration = 18f;
 
     private Rigidbody2D rb;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -21,11 +23,15 @@ public class PlayerMovement : MonoBehaviour
     public void MoveHorizontal(float input, bool inAir = false)
     {
         float targetVelocityX = input * moveSpeed;
-        float rate = (Mathf.Abs(input) > 0.01f) ? acceleration : deceleration;
+        float rate;
 
         if (inAir)
         {
-            rate *= airMultiplier;
+            rate = (Mathf.Abs(input) > 0.01f) ? airAcceleration : airDeceleration;
+        }
+        else
+        {
+            rate = (Mathf.Abs(input) > 0.01f) ? groundAcceleration : groundDeceleration;
         }
 
         Vector2 velocity = rb.linearVelocity;
@@ -36,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     public void StopHorizontal()
     {
         Vector2 velocity = rb.linearVelocity;
-        velocity.x = Mathf.MoveTowards(velocity.x, 0f, deceleration * Time.fixedDeltaTime);
+        velocity.x = Mathf.MoveTowards(velocity.x, 0f, groundDeceleration * Time.fixedDeltaTime);
         rb.linearVelocity = velocity;
     }
 }
