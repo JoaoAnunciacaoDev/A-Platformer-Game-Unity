@@ -8,11 +8,12 @@ public class PlayerInputHandler : MonoBehaviour
     private InputActionAsset inputActions;
 
     private InputActionMap playerMap;
-    private InputAction moveAction;
+    private InputAction leftAction;
+    private InputAction rightAction;
     private InputAction jumpAction;
 
     public float Horizontal =>
-        moveAction.ReadValue<Vector2>().x;
+    (rightAction.ReadValue<float>() - leftAction.ReadValue<float>());
 
     public bool JumpPressed =>
         jumpAction.WasPressedThisFrame();
@@ -23,8 +24,9 @@ public class PlayerInputHandler : MonoBehaviour
     private void Awake()
     {
         playerMap = inputActions.FindActionMap("Player", true);
-        moveAction = playerMap.FindAction("Move", true);
-        jumpAction = playerMap.FindAction("Jump", true);
+        leftAction = playerMap.FindAction("left", true);
+        rightAction = playerMap.FindAction("right", true);
+        jumpAction = playerMap.FindAction("jump", true);
     }
 
     private void OnEnable()
