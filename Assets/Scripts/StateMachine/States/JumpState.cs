@@ -14,7 +14,11 @@ public class JumpState : State
     public override void OnStateEnter()
     {
         player.Visual.PlayAnimation("jump");
-        player.JumpController.Jump();
+
+        if (player.JumpController.VerticalVelocity <= 0.1f)
+        {
+            player.JumpController.Jump();
+        }
     }
 
     public override State OnInputHandle()

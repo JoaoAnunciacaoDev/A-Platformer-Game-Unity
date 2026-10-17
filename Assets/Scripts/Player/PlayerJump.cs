@@ -10,9 +10,16 @@ public class PlayerJump : MonoBehaviour
     [Header("Game Feel")]
     [SerializeField, Min(0f)] private float coyoteTime = 0.12f;
     [SerializeField, Min(0f)] private float jumpBufferTime = 0.12f;
+
     [Header("Wall Jump")]
-    [SerializeField, Min(0f)] private float wallJumpForceY = 20f;
-    [SerializeField, Min(0f)] private float wallJumpForceX = 12f;
+    [SerializeField, Min(0f)] private float wallJumpForceY = 22f;
+    [SerializeField, Min(0f)] private float wallLeapForceX = 14f;
+    [SerializeField, Min(0f)] private float wallClimbForceX = 4f;
+    [SerializeField, Min(0f)] private float wallCoyoteTime = 0.15f;
+
+    private float wallCoyoteTimer;
+    public int LastWallDirection { get; private set; }
+    public bool CanWallJump => wallCoyoteTimer > 0f && jumpBufferTimer > 0f;
 
     private Rigidbody2D rb;
     private Player player;
@@ -33,21 +40,23 @@ public class PlayerJump : MonoBehaviour
     private void Update()
     {
         if (player.InputHandler.JumpPressed)
-        {
             jumpBufferTimer = jumpBufferTime;
-        }
         else
-        {
             jumpBufferTimer -= Time.deltaTime;
-        }
 
         if (player.Collision.IsGrounded)
-        {
             coyoteTimer = coyoteTime;
+        else
+            coyoteTimer -= Time.deltaTime;
+
+        if (player.Collision.IsTouchingWall && !player.Collision.IsGrounded)
+        {
+            wallCoyoteTimer = wallCoyoteTime;
+            LastWallDirection = player.Collision.WallDirection;
         }
         else
         {
-            coyoteTimer -= Time.deltaTime;
+            wallCoyoteTimer -= Time.deltaTime;
         }
     }
 
@@ -71,13 +80,17 @@ public class PlayerJump : MonoBehaviour
         rb.linearVelocity = velocity;
     }
 
-    public void WallJump(int wallDir)
+    public void WallJump(int wallDir, float horizontalInput)
     {
         jumpBufferTimer = 0f;
         coyoteTimer = 0f;
-        
+        wallCoyoteTimer = 0f;
+
+        bool climbingSameWall = (horizontalInput != 0 && Mathf.Sign(horizontalInput) == wallDir);
+        float forceX = climbingSameWall ? wallClimbForceX : wallLeapForceX;
+
         Vector2 velocity = rb.linearVelocity;
-        velocity.x = -wallDir * wallJumpForceX;
+        velocity.x = -wallDir * forceX;
         velocity.y = wallJumpForceY;
         rb.linearVelocity = velocity;
     }

@@ -20,9 +20,10 @@ public class WallSlideState : State
 
     public override State OnInputHandle()
     {
-        if (player.InputHandler.JumpPressed)
+        if (player.JumpController.HasBufferedJump)
         {
-            player.JumpController.WallJump(player.Collision.WallDirection);
+            float input = player.InputHandler.Horizontal;
+            player.JumpController.WallJump(player.Collision.WallDirection, input);
             return stateMachine.GetState("jump");
         }
 

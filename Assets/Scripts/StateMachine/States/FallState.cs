@@ -23,6 +23,13 @@ public class FallState : State
             return stateMachine.GetState("jump");
         }
 
+        if (player.JumpController.CanWallJump)
+        {
+            float input = player.InputHandler.Horizontal;
+            player.JumpController.WallJump(player.JumpController.LastWallDirection, input);
+            return stateMachine.GetState("jump");
+        }
+
         return null;
     }
 
